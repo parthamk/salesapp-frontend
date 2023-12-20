@@ -1,0 +1,9 @@
+/* App.css or your custom CSS file */
+.border-bottom-bold {
+  border-bottom: 2px solid;
+  font-weight: bold; /* Add this line to make the text bold */
+}
+
+.headingtoday{
+  text-align: center;
+}
