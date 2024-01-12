@@ -20,6 +20,13 @@ const Register = () => {
     // Prevent the default form submission behavior
     e.preventDefault();
 
+    // Check if any of the required fields is empty
+    if (!firstName || !lastName || !email || !password) {
+      // Set the error message for empty fields
+      setError('All fields are mandatory');
+      return;
+    }
+
     try {
       // Make a POST request to the backend API for user registration
       const response = await axios.post('https://salesapp-backend.onrender.com/auth/register', {
