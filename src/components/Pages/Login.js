@@ -18,6 +18,13 @@ const Login = ({ onLogin }) => {
     // Prevent the default form submission behavior
     e.preventDefault();
 
+        // Check if any of the required fields is empty
+        if (!email || !password) {
+          // Set the error message for empty fields
+          setError('All fields are mandatory');
+          return;
+        }
+        
     try {
       // Make a POST request to the backend API for user login
       const response = await axios.post('https://salesapp-backend.onrender.com/auth/login', {
