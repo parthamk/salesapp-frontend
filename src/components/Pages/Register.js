@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Functional component for user registration
 const Register = () => {
@@ -10,7 +12,7 @@ const Register = () => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  // const [error, setError] = useState('');
   
   // Access the navigate function from react-router-dom for redirection
   const navigate = useNavigate();
@@ -23,7 +25,7 @@ const Register = () => {
     // Check if any of the required fields is empty
     if (!firstName || !lastName || !email || !password) {
       // Set the error message for empty fields
-      setError('All fields are mandatory');
+      toast.error('All fields are mandatory');
       return;
     }
 
@@ -35,12 +37,19 @@ const Register = () => {
         email,
         password,
       });
-
+      
       // Save the token in local storage (optional, depends on your application flow)
       localStorage.setItem('token', response.data.token);
-
+      
       // Redirect to the login page
       navigate('/login');
+      if(response !== null){
+        toast.success("User Registered Successfully!");
+        setFirstName("");
+        setLastName("");
+        setEmail("");
+        setPassword("");
+      }
     } catch (err) {
       // Log and handle errors
       console.error(err.response);
@@ -48,10 +57,10 @@ const Register = () => {
       // Check if the error response has a status code of 400 (Bad Request)
       if (err.response && err.response.status === 400) {
         // Set the error message from the response data
-        setError(err.response.data.message);
+        toast.error(err.response.data.message);
       } else {
         // Set a generic error message for unexpected errors
-        setError('An unexpected error occurred. Please try again later.');
+        toast.error('An unexpected error occurred. Please try again later.');
       }
     }
   };
@@ -114,11 +123,12 @@ const Register = () => {
         </div>
         {/* Submit button for the form */}
         <button type="submit" className="btn btn-primary">Submit</button>
-      </form> 
+      </form>
+      <ToastContainer />
       {/* Conditional rendering of error message if there is an error */}
-      {error && 
+      {/* {error && 
         <div className='alert alert-danger'>{error}</div>
-      }
+      } */}
     </div>
   );
 };

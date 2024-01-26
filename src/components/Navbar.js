@@ -8,10 +8,12 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 // Navbar component that accepts isAuthenticated and user as props
 const Navbar = ({ isAuthenticated, user }) => {
+
+  // console.log('User:', user);
   // JSX for the Navbar
   return (
     // Navigation bar with dark background
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       {/* Container for the navbar content */}
       <div className="container-fluid">
         {/* Link to the home page with the brand name */}
@@ -39,6 +41,11 @@ const Navbar = ({ isAuthenticated, user }) => {
                 <li className="nav-item">
                   {/* Link to the todaysSales page */}
                   <Link className="nav-link" to="/todaysSales">TODAY'S TOTAL REVENUE</Link>
+                </li>
+                <li className="nav-item">
+                  {user && (
+                    <span className="nav-link">Welcome, {user.firstName}</span>
+                  )}
                 </li>
                 <li className="nav-item">
                   {/* Link to the logout page with user email as the title */}

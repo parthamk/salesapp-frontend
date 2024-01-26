@@ -2,13 +2,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Functional component for user login
 const Login = ({ onLogin }) => {
   // State variables for login form fields and error message
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  // const [error, setError] = useState('');
   
   // Access the navigate function from react-router-dom for redirection
   const navigate = useNavigate();
@@ -21,7 +23,7 @@ const Login = ({ onLogin }) => {
         // Check if any of the required fields is empty
         if (!email || !password) {
           // Set the error message for empty fields
-          setError('All fields are mandatory');
+          toast.error('All fields are mandatory');
           return;
         }
         
@@ -32,14 +34,19 @@ const Login = ({ onLogin }) => {
         password,
       });
 
+      // console.log('Login response:', response);
+
       // Extract the token from the response data
       const token = response.data.token;
+      // Decode the JWT to get user ID
 
       // Add the token to the headers for subsequent requests
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       
       // Save the token in local storage
       localStorage.setItem('token', token);
+
+      console.log('User data', response.data.user);
 
       // Call the onLogin callback with the user data
       onLogin(response.data.user);
@@ -53,10 +60,10 @@ const Login = ({ onLogin }) => {
       // Check if the error response has a status code of 401 (Unauthorized)
       if (error.response && error.response.status === 401) {
         // Set the error message for invalid email or password
-        setError('Invalid email or password. Please try again.');
+        toast.error('Invalid email or password. Please try again.');
       } else {
         // Set a generic error message for unexpected errors
-        setError('An unexpected error occurred. Please try again later.');
+        toast.error('An unexpected error occurred. Please try again later.');
       }
     }
   };
@@ -96,10 +103,11 @@ const Login = ({ onLogin }) => {
         {/* Submit button for the form */}
         <button type="submit" className="btn btn-primary">Submit</button>
       </form>
+      <ToastContainer />
       {/* Conditional rendering of error message if there is an error */}
-      {error && 
+      {/* {error && 
         <div className='alert alert-danger'>{error}</div>
-      }
+      } */}
     </div>
   );
 };

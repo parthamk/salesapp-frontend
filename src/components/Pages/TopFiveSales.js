@@ -1,6 +1,7 @@
-// Import React, useState for state management, useEffect for side effects, and axios for HTTP requests
+// Imported React, useState for state management, useEffect for side effects, and axios for HTTP requests
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+
 
 // Functional component for displaying top 5 sales
 const TopFiveSales = () => {
@@ -15,6 +16,7 @@ const TopFiveSales = () => {
         // Make a GET request to the backend API endpoint for top 5 sales
         const response = await axios.get('https://salesapp-backend.onrender.com/sales/topFiveSales');
         // Update the state with the received top 5 sales data
+      
         setSales(response.data);
       } catch (err) {
         // Log any errors that occur during the API request
