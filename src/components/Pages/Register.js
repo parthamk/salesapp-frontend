@@ -12,7 +12,7 @@ const Register = () => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const [error, setError] = useState('');
+
   
   // Access the navigate function from react-router-dom for redirection
   const navigate = useNavigate();
@@ -40,16 +40,22 @@ const Register = () => {
       
       // Save the token in local storage (optional, depends on your application flow)
       localStorage.setItem('token', response.data.token);
+
+      // Show success message using Toastify
+      toast.success('User Registered Successfully! Redirecting to login page...');
       
-      // Redirect to the login page
-      navigate('/login');
-      if(response !== null){
-        toast.success("User Registered Successfully!");
-        setFirstName("");
-        setLastName("");
-        setEmail("");
-        setPassword("");
-      }
+  
+      // Clear form fields after successful registration
+      setFirstName('');
+      setLastName('');
+      setEmail('');
+      setPassword('');
+
+      // Redirect to the login page after a short delay
+      setTimeout(() => {
+        navigate('/login');
+      }, 5000);
+
     } catch (err) {
       // Log and handle errors
       console.error(err.response);
