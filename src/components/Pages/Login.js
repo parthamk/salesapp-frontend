@@ -1,7 +1,7 @@
 // Import React, useState for state management, axios for HTTP requests, and useNavigate from react-router-dom for programmatic navigation
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -10,7 +10,8 @@ const Login = ({ onLogin }) => {
   // State variables for login form fields and error message
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
   
   // Access the navigate function from react-router-dom for redirection
   const navigate = useNavigate();
@@ -28,6 +29,8 @@ const Login = ({ onLogin }) => {
         }
         
     try {
+      setLoading(true); // Set loading to true when the form is submitted
+
       // Make a POST request to the backend API for user login
       const response = await axios.post('https://salesapp-backend.onrender.com/auth/login', {
         email,
@@ -43,16 +46,22 @@ const Login = ({ onLogin }) => {
       // Add the token to the headers for subsequent requests
       // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       
-      // Save the token in local storage
-      localStorage.setItem('token', token);
+      // Save the token in session storage
+      sessionStorage.setItem('token', token);
 
-      console.log('User data', response.data.user);
+      // console.log('User data', response.data.user);
 
       // Call the onLogin callback with the user data
-      onLogin(response.data.user);
+      onLogin(response.data.user)
+
+      setEmail("");
+      setPassword("")
+      toast.success("User Authenticated.. Login Success!");
       
-      // Redirect to the addSales page after successful login
-      navigate('/addSales');
+      // Delay navigation for a short time to allow the loading animation to be visible
+      setTimeout(() => {
+        navigate('/addSales');
+      }, 3000); // Adjust the delay time as needed
     } catch (error) {
       // Log and handle errors
       console.error('Login error:', error.response);
@@ -66,7 +75,13 @@ const Login = ({ onLogin }) => {
         toast.error('An unexpected error occurred. Please try again later.');
       }
     }
+    finally{
+      setLoading(false);
+    }
   };
+
+
+  
 
   // JSX for the component
   return (
@@ -74,6 +89,15 @@ const Login = ({ onLogin }) => {
     <div className="container">
       {/* Heading for the login form */}
       <h2 className="text-center my-4">LOGIN FORM</h2>
+      <span className='login-spinner-container'>
+        {loading && 
+          <>
+            <div className="loading-spinner"></div>
+            <div className='ms-2'>Redirecting please wait...</div>
+          </>
+        }
+        
+      </span>
       {/* Form with onSubmit event handler pointing to the handleLogin function */}
       <form onSubmit={handleLogin} className='mb-3'>
         {/* Form field for the email */}
@@ -102,7 +126,11 @@ const Login = ({ onLogin }) => {
         </div>
         {/* Submit button for the form */}
         <button type="submit" className="btn btn-primary">Submit</button>
+        <div>
+          <Link to="/">Don't have a account? Create one now.</Link>
+        </div>
       </form>
+      
       <ToastContainer />
       {/* Conditional rendering of error message if there is an error */}
       {/* {error && 

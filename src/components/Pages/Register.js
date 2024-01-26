@@ -1,7 +1,7 @@
 // Import React, useState for state management, axios for HTTP requests, and useNavigate from react-router-dom for programmatic navigation
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -38,8 +38,8 @@ const Register = () => {
         password,
       });
       
-      // Save the token in local storage (optional, depends on your application flow)
-      localStorage.setItem('token', response.data.token);
+      // Save the token in session storage
+      sessionStorage.setItem('token', response.data.token);
 
       // Show success message using Toastify
       toast.success('User Registered Successfully! Redirecting to login page...');
@@ -129,6 +129,9 @@ const Register = () => {
         </div>
         {/* Submit button for the form */}
         <button type="submit" className="btn btn-primary">Submit</button>
+        <div>
+          <Link to="/login">Already have an account? login now.</Link>
+        </div>
       </form>
       <ToastContainer />
       {/* Conditional rendering of error message if there is an error */}

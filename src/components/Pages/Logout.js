@@ -41,6 +41,7 @@ const Logout = ({ onLogout }) => {
   return (
     <div className="spinner-container">
       {loading && <div className="spinner"></div>}
+      <div className='ms-2'>Logout in progress please wait...</div>
     </div>
   )
 }
