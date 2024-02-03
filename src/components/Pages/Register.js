@@ -89,6 +89,7 @@ const Register = () => {
             id="firstName"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
+            required
           />
         </div>
         {/* Form field for the last name */}
@@ -101,6 +102,7 @@ const Register = () => {
             id="lastName"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
+            required
           />
         </div>
         {/* Form field for the email */}
