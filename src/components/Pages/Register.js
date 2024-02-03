@@ -87,7 +87,7 @@ const Register = () => {
             type="text" 
             className="form-control" 
             id="firstName"
-            value={firstName}
+            //value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
           />
@@ -100,7 +100,7 @@ const Register = () => {
             type="text" 
             className="form-control" 
             id="lastName"
-            value={lastName}
+            //value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
           />
@@ -113,7 +113,7 @@ const Register = () => {
             type="email" 
             className="form-control" 
             id="email"
-            value={email}
+            //value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
@@ -125,7 +125,7 @@ const Register = () => {
             type="password" 
             className="form-control" 
             id="password"
-            value={password}
+            //value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
